@@ -8,7 +8,7 @@ export class ApiSerivceService {
   public static reponseBody = "body";
   public static response = "response"
 
-  private baseUrl: String = "http://localhost:8080"
+  private baseUrl: String = "http://localhost:8888"
   constructor(private httpClient: HttpClient) { }
 
   public postApiRequest(path: any, body: any) {
