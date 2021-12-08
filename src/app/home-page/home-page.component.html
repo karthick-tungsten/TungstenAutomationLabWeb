@@ -5,20 +5,20 @@
 
         <div class="form-floating my-2">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username"
-                ngModel #username="ngModel" required autocomplete="none" [class.is-invalid]="username.invalid && username.touched">
+                [(ngModel)]="email" #username="ngModel" required autocomplete="none" [class.is-invalid]="username.invalid && username.touched">
             <label for="floatingInput">Email address</label>
             <span class="text-danger" *ngIf="username.invalid && username.touched"><small>email address can't be empty</small></span>
         </div>
         <div class="form-floating my-2">
             <input type="password" required class="form-control" id="floatingPassword" placeholder="Password"
-                name="password" ngModel ngModel #password="ngModel" [class.is-invalid]="password.invalid && password.touched">
+                name="password" ngModel #password="ngModel" [class.is-invalid]="password.invalid && password.touched">
             <label for="floatingPassword">Password</label>
             <span class="text-danger" *ngIf="password.invalid && password.touched"><small>password can't be empty</small></span>
         </div>
 
         <div class="checkbox my-3">
             <label class="float-left">
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" value="remember-me" (change)="rememberFlag=!rememberFlag" [checked]="rememberFlag"> Remember me
             </label>
         </div>
         <button class="w-100 btn btn-lg btn-primary my-3" [disabled]="!loginJson.valid" type="submit">Login</button>
