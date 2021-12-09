@@ -1,11 +1,11 @@
-<form #loginJson="ngForm" (ngSubmit)="login(loginJson.value)">
+<form #loginJson="ngForm" (ngSubmit)="login(loginJson.value)" autocomplete="off">
     <div class="card p-3 col-sm-12 col-md-3 mt-5 rounded-3" style="background-color: #ffffff;">
         <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating my-2">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username"
-                [(ngModel)]="email" #username="ngModel" required autocomplete="none" [class.is-invalid]="username.invalid && username.touched">
+                [(ngModel)]="email" #username="ngModel" required autocomplete="off" [class.is-invalid]="username.invalid && username.touched">
             <label for="floatingInput">Email address</label>
             <span class="text-danger" *ngIf="username.invalid && username.touched"><small>email address can't be empty</small></span>
         </div>
