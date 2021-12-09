@@ -12,11 +12,23 @@ declare var $: any;
 })
 export class HomePageComponent implements OnInit {
 
+  public rememberFlag:boolean=false;
+  public email:any;
+
   constructor(private apiSerivce: ApiSerivceService, private common: CommonMethodsService,
     private vShare: VariableShareService, private route: Router) { }
 
   ngOnInit(): void {
     this.alreadyLoggedInAction();
+    this.rememberInit();
+  }
+
+  rememberInit() {
+    let val=this.common.getFromLocal("remember-item")
+    if(val!=null){
+      this.rememberFlag=true
+      this.email=val
+    }  
   }
 
   alreadyLoggedInAction() {
@@ -31,7 +43,8 @@ export class HomePageComponent implements OnInit {
     this.apiSerivce.postApiRequest("/login", body).subscribe(
       {
         next: (resp) => {
-          if (resp.status == 200) {
+          if (resp.status == 200) {            
+            this.rememberAction();
             let token: any = resp.headers.get("Authorization");
             this.common.storeToLocal("auth", token);
             this.route.navigate(["/dashboard"])
@@ -47,4 +60,13 @@ export class HomePageComponent implements OnInit {
     )
   }
 
+  public rememberAction() {
+    if(this.rememberFlag==true){
+      this.common.storeToLocal("remember-item",this.email)
+    }else{
+      this.common.removeLocal("remember-item")
+    }
+  }
 }
+
+

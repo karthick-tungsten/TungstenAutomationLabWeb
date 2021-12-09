@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VariableShareService {
   private share = new BehaviorSubject<any>(null);
+  public progressbar:BehaviorSubject<boolean> =new BehaviorSubject<boolean>(false);
 
   constructor() {}
 
