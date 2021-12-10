@@ -12,6 +12,8 @@ import { VariableShareService } from '../common-services/variable-share.service'
 export class DashboardComponent implements OnInit {
 
   public nameOfTheUser: any
+  public roleOfTheUser: any;
+  public getAllUserdDetailsResponse: any='loading';
 
   constructor(
     private vShare: VariableShareService,
@@ -20,7 +22,16 @@ export class DashboardComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+
     this.common.validateToken()
+    this.userDetailsSessionManagement()
+    setTimeout(() => {
+      this.getAllUserDetails()  
+    }, 1000);
+    
+  }
+
+  userDetailsSessionManagement() {
     if (this.common.getFromSession("userDetails") == null) {
       this.api.getApiRequest("/api/v1/getUserDetails", this.api.getAuthHeader()).subscribe(
         {
@@ -33,20 +44,32 @@ export class DashboardComponent implements OnInit {
           }
         }
       )
-    }else{
+    } else {
       this.updateValues()
     }
   }
 
-  public updateValues() {
+  updateValues() {
     let json = JSON.parse(this.common.getFromSession("userDetails"))
     this.nameOfTheUser = json.fullName;
+    this.roleOfTheUser = json.role
   }
 
   logout() {
     this.common.removeLocal("auth")
     sessionStorage.clear()
     this.router.navigate(["/"])
+  }
+
+  getAllUserDetails() {
+    this.api.getAllUserDetails("/api/v1/superAdmin/getAllUsers", this.api.getAuthHeader()).subscribe({
+      next: (response) => {
+        this.getAllUserdDetailsResponse=response
+      },
+      error:(err)=>{
+        this.getAllUserdDetailsResponse=err
+      }
+    })
   }
 
 }

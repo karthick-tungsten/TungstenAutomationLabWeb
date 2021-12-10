@@ -10,13 +10,15 @@ import { ToastComponent } from './popup-toast/toast/toast.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar'
 import { InterceptorServiceService } from './common-services/interceptor-service.service';
+import { LoadingGrowComponent } from './common-html-elements/loading-grow/loading-grow.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     ToastComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoadingGrowComponent,
   ],
   imports: [
     BrowserModule,

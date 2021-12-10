@@ -7,3 +7,8 @@
 .mat-progress-color .mat-progress-bar-fill::after {
     background-color: rgb(255, 4, 180) !important;
 }
+
+.hover-border-change :hover{
+    border-color: rgb(70, 65, 69);
+    border-width: 2px;
+}
