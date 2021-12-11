@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar'
 import { InterceptorServiceService } from './common-services/interceptor-service.service';
 import { LoadingGrowComponent } from './common-html-elements/loading-grow/loading-grow.component';
+import { OrderByPipeService } from './sortPipes/order-by-pipe.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -19,13 +21,15 @@ import { LoadingGrowComponent } from './common-html-elements/loading-grow/loadin
     ToastComponent,
     DashboardComponent,
     LoadingGrowComponent,
+    OrderByPipeService
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgxPaginationModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:InterceptorServiceService,multi:true}
