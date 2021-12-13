@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subscriber } from 'rxjs';
+import { map, Subscriber } from 'rxjs';
 import { CommonMethodsService } from './common-methods.service';
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class ApiSerivceService {
   public static reponseBody = "body";
   public static response = "response"
 
-  private baseUrl: String = "http://localhost:8080"
-  // private baseUrl: String = "http://103.218.112.87:8888"
+  // private baseUrl: String = "http://localhost:8080"
+  private baseUrl: String = "http://tungstenautomation.ddns.net:8888"
 
   constructor(
     private httpClient: HttpClient,
@@ -37,5 +37,12 @@ export class ApiSerivceService {
 
   getAllUserDetails(path: string, headersParam: any) {
     return this.httpClient.get(this.getUrl(path), { headers: headersParam,observe: "response" } )
+  }
+
+  public getApiWithModal<ResponseModal>(path:String,headersParam:any){
+    return this.httpClient.get(this.getUrl(path), { headers: headersParam, observe: "response" })
+    .pipe(map(response=>{
+      return <ResponseModal>response.body
+    }))
   }
 }

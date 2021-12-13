@@ -38,110 +38,23 @@
 
     <div class="over-all-card-details row justify-content-center hover-border-change pointer">
 
-        <div id="users-card" class="card mb-3 text-center col-2" data-bs-toggle="collapse" href="#showDetails"
-            role="button" aria-expanded="false" aria-controls="showDetails">
-            <div class="loading my-4" *ngIf="getAllUserdDetailsResponse=='loading'">
-                <app-loading-grow></app-loading-grow>
-            </div>
-            <div class="available-card-details" *ngIf="getAllUserdDetailsResponse.status == 200">
+        <div id="{{tile.id}}" class="card mb-3 text-center col-2 mx-1" (click)="showSection(tile.routerLink)" *ngFor="let tile of this.loadDashboardTiles()">
+            <div class="available-card-details">
                 <div class="card-body">
                     <span class="card-title user-icon">
-                        <i class="fa fa-user-circle fa-3x" aria-hidden="true"></i>
+                        <i class="fa {{tile.icon}} fa-3x" aria-hidden="true"></i>
                     </span>
                 </div>
                 <div class="mb-2">
-                    <span class="text">Users</span>
-                    <span
-                        class="count mx-2 badge bg-secondary">{{getAllUserdDetailsResponse.body.metaData.userCount}}</span>
+                    <span class="text fw-bold">{{tile.tileName}}</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="collapse" id="showDetails">
-        <div class="card card-body user-details">
-            <div class="create-and-search-section row justify-content-end">
-                <span class="search-input col-3">
-                    <div class="input-group input-group-mb mb-2">
-                        <input type="text" class="form-control" placeholder="any value search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" (input)="anyValueSearch($event.target)">
-                        <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fa fa-search" aria-hidden="true"></i>
-                        </span>
-                      </div>
-                </span>
-                <span class="create-user col-1">
-                    <button id="create-user" type="button" class="btn btn-outline-secondary">Create </button>
-                </span>
-            </div>
-            <table class="table p-5 mt-3 table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" class="pointer" (click)="sort('fullName')">
-                            <span class="text">Name</span>
-                            <span class="sort-icon px-2" *ngIf="sortKey=='fullName'">
-                                <ng-template [ngTemplateOutlet]="sortIcons"></ng-template>
-                            </span>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sort('email')">
-                            <span class="text">Email</span>
-                            <span class="sort-icon px-2" *ngIf="sortKey=='email'">
-                                <ng-template [ngTemplateOutlet]="sortIcons"></ng-template>
-                            </span>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sort('role')">
-                            <span class="text">Role</span>
-                            <span class="sort-icon px-2" *ngIf="sortKey=='role'">
-                                <ng-template [ngTemplateOutlet]="sortIcons"></ng-template>
-                            </span>
-                        </th>
-                        <th scope="col">Actions</th>
-                        <th scope="col" class="pointer" (click)="sort('createdOn')">
-                            <span class="text">Created On</span>
-                            <span class="sort-icon px-2" *ngIf="sortKey=='createdOn'">
-                                <ng-template [ngTemplateOutlet]="sortIcons"></ng-template>
-                            </span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of (usersList | orderBy : sortKey : reverseSort | paginate:{'itemsPerPage':10,'currentPage':currentPageNumber})">
-                        <th scope="row">{{user.fullName}}</th>
-                        <td>{{user.email}}</td>
-                        <td>{{user.role}}</td>
-                        <td class="pointer text-left">
-                            <div class="btn-group dropend">
-                                <i class="fa fa-cog fa-2x" data-bs-toggle="dropdown" aria-expanded="false"
-                                    aria-hidden="true"></i>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <span class="dropdown-item" (click)="editUserPopup(user.id)">
-                                            <i class="fa fa-pencil-square-o mx-1" aria-hidden="true"></i>Edit
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="dropdown-item" (click)="deleteUserPopup(user.id)">
-                                            <i class="fa fa-trash-o mx-1" aria-hidden="true"></i>Delete
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>{{user.createdOn | date:'medium'}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <pagination-controls class="text-center" (pageChange)="currentPageNumber=$event"></pagination-controls>
-        </div>
+    <div class="active-card-details">
+        <router-outlet></router-outlet>
     </div>
 
 </section>
 
-<!-- reusable templates -->
-<ng-template #sortIcons>
-    <i class="fa fa-sort-desc" aria-hidden="true" *ngIf="reverseSort"></i>
-    <i class="fa fa-sort-asc" aria-hidden="true" *ngIf="!reverseSort"></i>
-</ng-template>
-<!-- end of resuable templates -->
-
-<section *ngIf="roleOfTheUser != 'SUPERADMIN'">
-    non user admin section
-</section>

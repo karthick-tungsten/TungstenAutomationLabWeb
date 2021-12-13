@@ -13,6 +13,9 @@ import { InterceptorServiceService } from './common-services/interceptor-service
 import { LoadingGrowComponent } from './common-html-elements/loading-grow/loading-grow.component';
 import { OrderByPipeService } from './sortPipes/order-by-pipe.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UserDetailsComponent } from './dashboard/admin-users/user-details/user-details.component';
+import { CircleSpinnerComponent } from './common-html-elements/circle-spinner/circle-spinner.component';
+import { ProjectDetailsComponent } from './dashboard/admin-users/project-details/project-details.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ToastComponent,
     DashboardComponent,
     LoadingGrowComponent,
-    OrderByPipeService
+    OrderByPipeService,
+    UserDetailsComponent,
+    CircleSpinnerComponent,
+    ProjectDetailsComponent
   ],
   imports: [
     BrowserModule,

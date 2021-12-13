@@ -12,26 +12,27 @@ import { VariableShareService } from '../common-services/variable-share.service'
 
 export class DashboardComponent implements OnInit {
 
+  /*** 
+   * spinners
+  */
+  public userGrowingSpinner: boolean = true
+
+  /**
+   * other variables
+   */
   public nameOfTheUser: any
   public roleOfTheUser: any;
-  public getAllUserdDetailsResponse: any = 'loading';
   public usersList: any[] = [];
-  public currentPageNumber:number=1;
 
   constructor(
-    private vShare: VariableShareService,
     private common: CommonMethodsService,
     private api: ApiSerivceService,
     private router: Router) { }
 
   ngOnInit(): void {
-
     this.common.validateToken()
     this.userDetailsSessionManagement()
-    setTimeout(() => {
-      this.getAllUserDetails()
-    }, 1000);
-
+    this.loadDashboardTiles()
   }
 
   userDetailsSessionManagement() {
@@ -64,47 +65,27 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(["/"])
   }
 
-  getAllUserDetails() {
-    this.api.getAllUserDetails("/api/v1/superAdmin/getAllUsers", this.api.getAuthHeader()).subscribe({
-      next: (response) => {
-        this.getAllUserdDetailsResponse = response
-        this.usersList = this.getAllUserdDetailsResponse.body.usersList;
-      },
-      error: (err) => {
-        this.getAllUserdDetailsResponse = err
-      }
-    })
-  }
-
-  editUserPopup(userId: any) {
-    console.log(userId);
-
-  }
-
-  deleteUserPopup(userId: any) {
-    console.log(userId);
-  }
-
-  anyValueSearch(eventTarget: any) {
-    let searchValue: String = eventTarget.value;
-    let search: any[] = this.getAllUserdDetailsResponse.body.usersList;
-    if (!this.usersList || !searchValue) {
-      this.usersList = this.getAllUserdDetailsResponse.body.usersList;
-      return;
+  showSection(section: any) {
+    if (location.pathname == '/dashboard/' + section) {
+      this.router.navigate(['dashboard'])
+    } else {      
+      this.router.navigate(['/dashboard/' + section])
     }
-    this.usersList = search.filter(value => {
-      return value.fullName.toLowerCase().match(searchValue.toLowerCase()) ||
-        value.email.toLowerCase().match(searchValue.toLowerCase()) ||
-        value.role.toLowerCase().match(searchValue.toLowerCase()) ||
-        value.createdOn.toLowerCase().match(searchValue.toLowerCase());
-    })
   }
 
-  public sortKey: String = 'createdOn'
-  public reverseSort: boolean = true
-  sort(key: String) {
-    this.sortKey = key;
-    this.reverseSort = !this.reverseSort;
+  loadDashboardTiles(): any[] {
+    return [
+      {
+        tileName: "Users",
+        icon: "fa-user-circle",
+        id: "users-card",
+        routerLink: "users"
+      }, {
+        tileName: "Projects",
+        icon: "fa-file",
+        id: "projects-card",
+        routerLink: "projects"
+      }
+    ]
   }
-
 }
