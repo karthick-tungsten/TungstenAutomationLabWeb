@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs';
-import { ApiSerivceService } from 'src/app/common-services/api-serivce.service';
 import { AllProjectsResponse, projectList } from 'src/app/response-modals/AllProjectsResponse';
+import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
 
 @Component({
   selector: 'app-project-details',

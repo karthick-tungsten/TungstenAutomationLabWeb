@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiSerivceService } from '../common-services/api-serivce.service';
-import { CommonMethodsService } from '../common-services/common-methods.service';
-import { VariableShareService } from '../common-services/variable-share.service';
-import { ToastComponent } from '../popup-toast/toast/toast.component';
+import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
+import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
+import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
 declare var $: any;
 @Component({
   selector: 'app-home-page',

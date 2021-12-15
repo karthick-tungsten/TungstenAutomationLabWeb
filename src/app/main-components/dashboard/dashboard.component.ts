@@ -1,8 +1,7 @@
 import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiSerivceService } from '../common-services/api-serivce.service';
-import { CommonMethodsService } from '../common-services/common-methods.service';
-import { VariableShareService } from '../common-services/variable-share.service';
+import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
+import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
 
 @Component({
   selector: 'app-dashboard',

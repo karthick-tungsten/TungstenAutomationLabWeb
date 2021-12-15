@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { VariableShareService } from 'src/app/common-services/variable-share.service';
+import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
 declare var $: any;
 
 @Component({

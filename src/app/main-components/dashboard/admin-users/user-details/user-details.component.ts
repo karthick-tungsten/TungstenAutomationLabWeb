@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiSerivceService } from 'src/app/common-services/api-serivce.service';
-import { CommonMethodsService } from 'src/app/common-services/common-methods.service';
-import { VariableShareService } from 'src/app/common-services/variable-share.service';
+import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
+import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
+import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
 
 @Component({
   selector: 'app-user-details',
