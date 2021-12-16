@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
 import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
 import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
-
+declare var $:any;
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -15,17 +15,19 @@ export class UserDetailsComponent implements OnInit {
   /*** 
    * spinners
   */
-   public spinner: boolean = true
+  public spinner: boolean = true
 
-   /**
-    * other variables
-    */
-   public nameOfTheUser: any
-   public roleOfTheUser: any;
-   public getAllUserdDetailsResponse: any = 'loading';
-   public usersList: any[] = [];
+  /**
+   * other variables
+   */
+  public nameOfTheUser: any
+  public roleOfTheUser: any;
+  public getAllUserdDetailsResponse: any;
+  public usersList: any[] = [];
+  public createUserFieldList:any[]=this.createUserFields()
+  public disableSubmitBtn:boolean=false;
 
-   constructor(
+  constructor(
     private vShare: VariableShareService,
     private common: CommonMethodsService,
     private api: ApiSerivceService,
@@ -45,8 +47,8 @@ export class UserDetailsComponent implements OnInit {
   }
 
   editUserPopup(userId: any) {
+    this.disableSubmitBtn=true
     console.log(userId);
-
   }
 
   deleteUserPopup(userId: any) {
@@ -81,5 +83,30 @@ export class UserDetailsComponent implements OnInit {
         this.spinner = false
       }
     })
+  }
+
+  createUserFields():any[]{
+    return [
+      {id:"fullName",labelName:"Full Name",errorMsg:"full name can't be empty",type:"text"},
+      {id:"email",labelName:"Email",errorMsg:"email name can't be empty",type:"email"},
+      {id:"password",labelName:"Password",errorMsg:"Password name can't be empty",type:"password"},
+      {id:"confirmPassword",labelName:"Confirm Password",errorMsg:"Confirm Password name can't be empty",type:"password"}
+    ]
+  }
+
+  createUser(data: any) {
+      $("#createUserSubmitBtn").attr("disabled","true");
+      delete data['confirmPassword']
+      this.api.postApiRequestWithHeader("/api/v1/createUser",data,this.api.getAuthHeader()).subscribe(
+        {
+          next:(response)=>{
+            if(response.status==200){
+              $("#createUser").modal('toggle')
+              this.getAllUserDetails();
+              this.spinner = true
+            }
+          }
+        }
+      );
   }
 }

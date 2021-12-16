@@ -24,4 +24,5 @@
         </div>
         <button class="w-100 btn btn-lg btn-primary my-3" [disabled]="!loginJson.valid" type="submit">Login</button>
     </div>
+    {{loginJson.value|json}}
 </form>

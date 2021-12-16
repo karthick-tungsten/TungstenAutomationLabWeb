@@ -27,6 +27,10 @@ export class ApiSerivceService {
     return this.httpClient.post(this.getUrl(path), body, { observe: "response" });
   }
 
+  public postApiRequestWithHeader(path: any, body: any,headerParam:any) {
+    return this.httpClient.post(this.getUrl(path), body, { headers:headerParam,observe: "response" });
+  }
+
   public getApiRequest(path: any, headersParam: any) {
     return this.httpClient.get(this.getUrl(path), { headers: headersParam, observe: "response" })
   }
@@ -45,4 +49,5 @@ export class ApiSerivceService {
       return <ResponseModal>response.body
     }))
   }
+
 }

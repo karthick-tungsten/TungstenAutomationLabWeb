@@ -10,10 +10,11 @@
             </div>
         </span>
         <span class="create-user col-1">
-            <button id="create-user" type="button" class="btn btn-outline-secondary">Create </button>
+            <button id="create-user" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                data-bs-target="#createUser">Create </button>
         </span>
     </div>
-    <table class="table p-5 mt-3 table-hover">
+    <table class="table p-5 mt-3 {{(usersList.length!=0)?'table-hover':''}}">
         <thead>
             <tr>
                 <th scope="col" class="pointer" (click)="sort('fullName')">
@@ -47,8 +48,11 @@
         <tbody>
             <tr class="spinner text-center" *ngIf="spinner">
                 <td colspan="6" class="m-5 p-5">
-                <app-circle-spinner style="width: 5rem; height: 5rem;" ></app-circle-spinner>
-            </td>
+                    <app-circle-spinner style="width: 5rem; height: 5rem;"></app-circle-spinner>
+                </td>
+            </tr>
+            <tr class="text-center" *ngIf="usersList.length == 0 && getAllUserdDetailsResponse!=undefined">
+                <td colspan="6" class="m-5 p-5">No users available</td>
             </tr>
             <tr
                 *ngFor="let user of (usersList | orderBy : sortKey : reverseSort | paginate:{'itemsPerPage':10,'currentPage':currentPageNumber})">
@@ -56,33 +60,89 @@
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>
                 <td class="pointer text-left">
-                    <div class="btn-group dropend">
-                        <i class="fa fa-cog fa-2x" data-bs-toggle="dropdown" aria-expanded="false"
-                            aria-hidden="true"></i>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <span class="dropdown-item" (click)="editUserPopup(user.id)">
-                                    <i class="fa fa-pencil-square-o mx-1" aria-hidden="true"></i>Edit
-                                </span>
-                            </li>
-                            <li>
-                                <span class="dropdown-item" (click)="deleteUserPopup(user.id)">
-                                    <i class="fa fa-trash-o mx-1" aria-hidden="true"></i>Delete
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
+                    <ng-template [ngTemplateOutlet]="actionGear" [ngTemplateOutletContext]="{user}"></ng-template>
                 </td>
                 <td>{{user.createdOn | date:'medium'}}</td>
             </tr>
         </tbody>
     </table>
-    <pagination-controls class="text-center" (pageChange)="currentPageNumber=$event"></pagination-controls>
+    <pagination-controls class="text-center" (pageChange)="currentPageNumber=$event" *ngIf="usersList.length>10">
+    </pagination-controls>
 </div>
 
-<!-- reusable templates -->
+
+<!-- create user Modal -->
+<div class="modal fade" id="createUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="Create a User" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create a user</h5>
+            </div>
+            <form #createUserJson="ngForm" (ngSubmit)="createUser(createUserJson.value)" autocomplete="new-password">
+                <div class="modal-body">
+
+                    <div class="form-floating my-2" *ngFor="let field of createUserFieldList">
+                        <input type="{{field.type}}" class="form-control" id="floatingInput_{{field.id}}"
+                            name="{{field.id}}" [ngModel] value="" #item="ngModel" required autocomplete="off"
+                            [class.is-invalid]="item.invalid && item.touched" placeholder="{{field.labelName}}">
+                        <label for="floatingInput_{{field.id}}">{{field.labelName}}</label>
+                        <span class="text-danger"
+                            *ngIf="item.invalid && item.touched"><small>{{field.errorMsg}}</small></span>
+                        <span class="text-danger"
+                            *ngIf="field.id=='confirmPassword' && 
+                        createUserJson.value.password!=createUserJson.value.confirmPassword
+                        && item.touched && createUserJson.value.password!=null && createUserJson.value.confirmPassword!=null && createUserJson.value.confirmPassword!=''">
+                            not matched entered password</span>
+                    </div>
+                    <div class="form-floating my-2">
+                        <select class="form-select" id="floatingSelectGrid" name="role" placeholder="role"
+                            #item="ngModel" [class.is-invalid]="item.invalid && item.touched"
+                            [class.valid]="item.value!=''" [ngModel] required>
+                            <option value="{{role}}" *ngFor="let role of ['','MANAGER','ADMIN','USER']">{{role}}
+                            </option>
+                        </select>
+                        <label for="floatingSelectGrid">Role</label>
+                        <span class="text-danger" *ngIf="item.invalid && item.touched"><small>select the
+                                role</small></span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="createUserSubmitBtn" class="btn btn-primary"
+                        [disabled]="!createUserJson.valid">Create</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="createUserJson.resetForm()">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- reusable component -->
+
+<!-- sort icons -->
 <ng-template #sortIcons>
     <i class="fa fa-sort-desc" aria-hidden="true" *ngIf="reverseSort"></i>
     <i class="fa fa-sort-asc" aria-hidden="true" *ngIf="!reverseSort"></i>
 </ng-template>
-<!-- end of resuable templates -->
+
+<!-- action gear -->
+<ng-template #actionGear let-user="user">
+    <div class="btn-group dropend">
+        <i class="fa fa-cog fa-2x" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></i>
+        <ul class="dropdown-menu">
+            <li>
+                <span class="dropdown-item" (click)="editUserPopup(user.id)">
+                    <i class="fa fa-pencil-square-o mx-1" aria-hidden="true"></i>Edit
+                </span>
+            </li>
+            <li>
+                <span class="dropdown-item" (click)="deleteUserPopup(user.id)">
+                    <i class="fa fa-trash-o mx-1" aria-hidden="true"></i>Delete
+                </span>
+            </li>
+        </ul>
+    </div>
+</ng-template>

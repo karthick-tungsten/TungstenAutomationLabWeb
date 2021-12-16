@@ -1,24 +1,49 @@
 <div class="card card-body project-details">
-    <div class="project-table p-3">
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Project Name</th>
-                <th scope="col">Owner Name</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr class="loading text-center" *ngIf="spinner">
-                    <td colspan="3" class="p-5">
-                        <app-circle-spinner></app-circle-spinner>
-                    </td>
-                </tr>
-              <tr *ngFor="let project of (this.projectList | paginate:{'itemsPerPage':10,'currentPage':currentPage})">
-                <th scope="row">{{project.projectDetails.projectName}}</th>
-                <td>{{project.ownerDetails.ownerName}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <pagination-controls class="text-center" (pageChange)="currentPage=$event"></pagination-controls>
-    </div>
+  <div class="project-table p-3">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Project Name</th>
+          <th scope="col">Owner Name</th>
+          <th scope="col">Actions</th>
+          <th scope="col">Created On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="loading text-center" *ngIf="spinner">
+          <td colspan="4" class="p-5">
+            <app-circle-spinner></app-circle-spinner>
+          </td>
+        </tr>
+        <tr class="text-center" *ngIf="projectList.length==0 && allProjectResponse==undefined">
+          <td colspan="4" class="p-5">No project available</td>
+        </tr>
+        <tr *ngFor="let project of (this.projectList | paginate:{'itemsPerPage':10,'currentPage':currentPage})">
+          <th scope="row">{{project.projectDetails.projectName}}</th>
+          <td>{{project.ownerDetails.ownerName}}</td>
+          <td>yet to develop</td>
+          <td>
+            <ng-template [ngTemplateOutlet]="actionGear" [ngTemplateOutletContext]="{project}"></ng-template>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <pagination-controls class="text-center" (pageChange)="currentPage=$event" *ngIf="projectList.length>10">
+    </pagination-controls>
+  </div>
 </div>
+
+<ng-template #actionGear let-project="project">
+  <div class="btn-group dropend">
+    <i class="fa fa-cog fa-2x" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></i>
+    <ul class="dropdown-menu">
+      <li>
+        <span class="dropdown-item">
+          <i class="fa fa-pencil-square-o mx-1" aria-hidden="true"></i>Update
+        </span>
+      </li>
+
+    </ul>
+  </div>
+</ng-template>
