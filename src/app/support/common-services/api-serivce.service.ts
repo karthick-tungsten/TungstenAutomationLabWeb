@@ -19,7 +19,7 @@ export class ApiSerivceService {
     private common: CommonMethodsService
   ) { }
 
-  private getUrl(path:any){
+  private getUrl(path: any) {
     return this.baseUrl + path;
   }
 
@@ -27,8 +27,8 @@ export class ApiSerivceService {
     return this.httpClient.post(this.getUrl(path), body, { observe: "response" });
   }
 
-  public postApiRequestWithHeader(path: any, body: any,headerParam:any) {
-    return this.httpClient.post(this.getUrl(path), body, { headers:headerParam,observe: "response" });
+  public postApiRequestWithHeader(path: any, body: any, headerParam: any) {
+    return this.httpClient.post(this.getUrl(path), body, { headers: headerParam, observe: "response" });
   }
 
   public getApiRequest(path: any, headersParam: any) {
@@ -40,14 +40,18 @@ export class ApiSerivceService {
   }
 
   getAllUserDetails(path: string, headersParam: any) {
-    return this.httpClient.get(this.getUrl(path), { headers: headersParam,observe: "response" } )
-  }
-
-  public getApiWithModal<ResponseModal>(path:String,headersParam:any){
     return this.httpClient.get(this.getUrl(path), { headers: headersParam, observe: "response" })
-    .pipe(map(response=>{
-      return <ResponseModal>response.body
-    }))
   }
 
+  public getApiWithModal<ResponseModal>(path: String, headersParam: any) {
+    return this.httpClient.get(this.getUrl(path), { headers: headersParam, observe: "response" })
+      .pipe(map(response => {
+        return <ResponseModal>response.body
+      }))
+  }
+
+  public deleteApi(path: any, headerParam: any) {
+    return this.httpClient.delete(this.getUrl(path), { headers: headerParam, observe: "response" })
+  }
 }
+

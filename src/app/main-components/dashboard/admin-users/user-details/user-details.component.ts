@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.service';
 import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
-import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
-import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
-declare var $:any;
+import { JqueryService } from 'src/app/support/jquery/jquery.service';
+declare var $: any;
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -24,14 +23,14 @@ export class UserDetailsComponent implements OnInit {
   public roleOfTheUser: any;
   public getAllUserdDetailsResponse: any;
   public usersList: any[] = [];
-  public createUserFieldList:any[]=this.createUserFields()
-  public disableSubmitBtn:boolean=false;
+  public createUserFieldList: any[] = this.createUserFields()
+  public disableSubmitBtn: boolean = false;
+  private deleteUserId:any;
 
   constructor(
-    private vShare: VariableShareService,
-    private common: CommonMethodsService,
     private api: ApiSerivceService,
-    private router: Router) { }
+    private jquery: JqueryService,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -47,7 +46,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   editUserPopup(userId: any) {
-    this.disableSubmitBtn=true
     console.log(userId);
   }
 
@@ -85,28 +83,47 @@ export class UserDetailsComponent implements OnInit {
     })
   }
 
-  createUserFields():any[]{
+  createUserFields(): any[] {
     return [
-      {id:"fullName",labelName:"Full Name",errorMsg:"full name can't be empty",type:"text"},
-      {id:"email",labelName:"Email",errorMsg:"email name can't be empty",type:"email"},
-      {id:"password",labelName:"Password",errorMsg:"Password name can't be empty",type:"password"},
-      {id:"confirmPassword",labelName:"Confirm Password",errorMsg:"Confirm Password name can't be empty",type:"password"}
+      { id: "fullName", labelName: "Full Name", errorMsg: "full name can't be empty", type: "text" },
+      { id: "email", labelName: "Email", errorMsg: "email name can't be empty", type: "email" },
+      { id: "password", labelName: "Password", errorMsg: "Password name can't be empty", type: "password" },
+      { id: "confirmPassword", labelName: "Confirm Password", errorMsg: "Confirm Password name can't be empty", type: "password" }
     ]
   }
 
   createUser(data: any) {
-      $("#createUserSubmitBtn").attr("disabled","true");
-      delete data['confirmPassword']
-      this.api.postApiRequestWithHeader("/api/v1/createUser",data,this.api.getAuthHeader()).subscribe(
-        {
-          next:(response)=>{
-            if(response.status==200){
-              $("#createUser").modal('toggle')
-              this.getAllUserDetails();
-              this.spinner = true
-            }
+    this.jquery.getId("createUserSubmitBtn").disable()
+    delete data['confirmPassword']
+    this.api.postApiRequestWithHeader("/api/v1/createUser", data, this.api.getAuthHeader()).subscribe(
+      {
+        next: (response) => {
+          if (response.status == 200) {
+            this.jquery.getId("createUser").modalToggle()
+            this.getAllUserDetails();
+            this.spinner = true
+            this.toast
+              .setTitle("Success")
+              .setMessage("User Created successfully!")
+              .setType("success")
+              .build()
+              .show();
           }
+        }, error: (err) => {
+          this.jquery.getId("createUserSubmitBtn").enable()
+          let message=err.error.message;
+          this.toast
+              .setTitle("Error")
+              .setMessage(message)
+              .setType("failure")
+              .build()
+              .show();
         }
-      );
+      }
+    );
+  }
+
+  deleteUser(){
+    // this.api.deleteApi("api/v1/delete/"+this.deleteUserId,this.api.getAuthHeader())
   }
 }

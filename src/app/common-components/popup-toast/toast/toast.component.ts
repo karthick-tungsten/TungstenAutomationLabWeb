@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
+import { ToastService } from './toast.service';
 declare var $: any;
 
 @Component({
@@ -13,9 +14,9 @@ export class ToastComponent implements OnInit, AfterViewInit {
   public message: any;
   public headerBg: any;
 
-  constructor(private vShare: VariableShareService) { }
+  constructor(private toast: ToastService) { }
   ngAfterViewInit(): void {
-    this.vShare.getToastValue().subscribe(data => {
+    this.toast.getToastValue().subscribe(data => {
       if (data != null) {
         this.showToast(data.title, data.message, data.type);
       }
@@ -26,7 +27,7 @@ export class ToastComponent implements OnInit, AfterViewInit {
 
   }
 
-  public showToast(title: any, message: any, type: any) {
+  private showToast(title: any, message: any, type: any) {
     if (type == "success") {
       this.headerBg = "bg-success";
     } else if (type == "failure") {
