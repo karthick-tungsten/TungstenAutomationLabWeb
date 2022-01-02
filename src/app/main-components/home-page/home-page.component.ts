@@ -19,7 +19,7 @@ export class HomePageComponent implements OnInit {
     private apiSerivce: ApiSerivceService,
     private common: CommonMethodsService,
     private vShare: VariableShareService,
-    private route: Router,
+    private router: Router,
     private toast: ToastService) { }
 
   ngOnInit(): void {
@@ -32,12 +32,14 @@ export class HomePageComponent implements OnInit {
     if (val != null) {
       this.rememberFlag = true
       this.email = val
+    }else{
+      this.verifySuperAdmin()
     }
   }
 
   alreadyLoggedInAction() {
     if (this.common.getFromLocal("auth") != null) {
-      this.route.navigate(["/dashboard"])
+      this.router.navigate(["/dashboard"])
       this.toast.setType("info")
         .setMessage("Your are already logged in!")
         .setTitle("Info")
@@ -54,7 +56,7 @@ export class HomePageComponent implements OnInit {
             this.rememberAction();
             let token: any = resp.headers.get("Authorization");
             this.common.storeToLocal("auth", token);
-            this.route.navigate(["/dashboard"])
+            this.router.navigate(["/dashboard"])
             let data = { "title": "Success", "message": "Logged in successfully!", "type": "success" }
             this.toast.setType("success")
               .setMessage("Logged in successfully!")
@@ -81,6 +83,16 @@ export class HomePageComponent implements OnInit {
     } else {
       this.common.removeLocal("remember-item")
     }
+  }
+
+  private verifySuperAdmin() {
+    this.apiSerivce.getApiRequest("/api/v1/superAdmin/homePageNavigation",null).subscribe({
+      next:(response)=>{
+
+      },error:(err)=>{
+
+      }
+    });
   }
 }
 
