@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
+import { ToastType } from 'src/app/support/project-enums/projectEnums';
 import { ToastService } from './toast.service';
 declare var $: any;
 
@@ -27,12 +27,12 @@ export class ToastComponent implements OnInit, AfterViewInit {
 
   }
 
-  private showToast(title: any, message: any, type: any) {
-    if (type == "success") {
+  private showToast(title: any, message: any, type: ToastType) {
+    if (type == ToastType.SUCCESS) {
       this.headerBg = "bg-success";
-    } else if (type == "failure") {
+    } else if (type == ToastType.FAILURE) {
       this.headerBg = "bg-danger";
-    } else if (type == "info") {
+    } else if (type == ToastType.INFO) {
       this.headerBg = "bg-primary"
     }
     this.title = title;

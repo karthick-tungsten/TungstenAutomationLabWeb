@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.service';
+import { ToastType } from '../project-enums/projectEnums';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CommonMethodsService {
       localStorage.clear()
       sessionStorage.clear()
       this.router.navigate([""])
-      this.toast.setType("failure")
+      this.toast.setType(ToastType.FAILURE)
               .setMessage("Please login")
               .setTitle("Error")
               .build()

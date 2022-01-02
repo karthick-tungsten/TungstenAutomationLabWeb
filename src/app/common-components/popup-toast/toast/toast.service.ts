@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { ToastType } from 'src/app/support/project-enums/projectEnums';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class ToastService {
   private toast = new BehaviorSubject<any>(null);
   private title: any;
   private message: any;
-  private type: any;
+  private type!: ToastType;
   private data: any;
 
   constructor() { }
@@ -18,7 +19,7 @@ export class ToastService {
     return this;
   }
 
-  setType(type: any) {
+  setType(type: ToastType) {
     this.type = type;
     return this;
   }
@@ -31,10 +32,6 @@ export class ToastService {
   setTitle(title: any) {
     this.title = title;
     return this;
-  }
-
-  showToast() {
-
   }
 
   show() {

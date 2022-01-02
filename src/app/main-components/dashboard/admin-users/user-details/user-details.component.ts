@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.service';
 import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
 import { JqueryService } from 'src/app/support/jquery/jquery.service';
+import { ToastType } from 'src/app/support/project-enums/projectEnums';
 declare var $: any;
 @Component({
   selector: 'app-user-details',
@@ -105,7 +106,7 @@ export class UserDetailsComponent implements OnInit {
             this.toast
               .setTitle("Success")
               .setMessage("User Created successfully!")
-              .setType("success")
+              .setType(ToastType.SUCCESS)
               .build()
               .show();
           }
@@ -115,7 +116,7 @@ export class UserDetailsComponent implements OnInit {
           this.toast
               .setTitle("Error")
               .setMessage(message)
-              .setType("failure")
+              .setType(ToastType.SUCCESS)
               .build()
               .show();
         }

@@ -4,6 +4,8 @@ import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.
 import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
 import { CommonMethodsService } from 'src/app/support/common-services/common-methods.service';
 import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
+import { JqueryService } from 'src/app/support/jquery/jquery.service';
+import { ToastType } from 'src/app/support/project-enums/projectEnums';
 declare var $: any;
 @Component({
   selector: 'app-home-page',
@@ -14,13 +16,14 @@ export class HomePageComponent implements OnInit {
 
   public rememberFlag: boolean = false;
   public email: any;
-
+  public showSuperadmin:boolean=false;
   constructor(
     private apiSerivce: ApiSerivceService,
     private common: CommonMethodsService,
     private vShare: VariableShareService,
     private router: Router,
-    private toast: ToastService) { }
+    private toast: ToastService,
+    private jquery: JqueryService) { }
 
   ngOnInit(): void {
     this.alreadyLoggedInAction();
@@ -32,7 +35,7 @@ export class HomePageComponent implements OnInit {
     if (val != null) {
       this.rememberFlag = true
       this.email = val
-    }else{
+    } else {
       this.verifySuperAdmin()
     }
   }
@@ -40,7 +43,7 @@ export class HomePageComponent implements OnInit {
   alreadyLoggedInAction() {
     if (this.common.getFromLocal("auth") != null) {
       this.router.navigate(["/dashboard"])
-      this.toast.setType("info")
+      this.toast.setType(ToastType.INFO)
         .setMessage("Your are already logged in!")
         .setTitle("Info")
         .build()
@@ -58,7 +61,7 @@ export class HomePageComponent implements OnInit {
             this.common.storeToLocal("auth", token);
             this.router.navigate(["/dashboard"])
             let data = { "title": "Success", "message": "Logged in successfully!", "type": "success" }
-            this.toast.setType("success")
+            this.toast.setType(ToastType.SUCCESS)
               .setMessage("Logged in successfully!")
               .setTitle("Success")
               .build()
@@ -66,12 +69,11 @@ export class HomePageComponent implements OnInit {
           }
         },
         error: (err) => {
-          let data = { "title": "Error", "message": "invalid username and password", "type": "failure" }
-          this.toast.setType("failure")
-              .setMessage("invalid username and password")
-              .setTitle("Error")
-              .build()
-              .show();
+          this.toast.setType(ToastType.FAILURE)
+            .setMessage("invalid username and password")
+            .setTitle("Error")
+            .build()
+            .show();
         }
       }
     )
@@ -86,13 +88,36 @@ export class HomePageComponent implements OnInit {
   }
 
   private verifySuperAdmin() {
-    this.apiSerivce.getApiRequest("/api/v1/superAdmin/homePageNavigation",null).subscribe({
-      next:(response)=>{
-
-      },error:(err)=>{
-
+    this.apiSerivce.getApiRequest("/api/v1/superAdmin/homePageNavigation", null).subscribe({
+      next: (response) => {
+        
+      }, error: (err) => {
+        this.showSuperadmin=true
+        setTimeout(()=>{
+          this.jquery.getId("superAdminSection").modalToggle()
+        })
       }
     });
+  }
+
+  public superadminCreation(json: any) {
+    delete json['confirmPassword']
+    this.apiSerivce.postApiRequest("/api/v1/superAdmin/create",json).subscribe({
+      next:(response)=>{
+        this.toast.setMessage("Super Admin Created Successfully!")
+        .setTitle("Success")
+        .setType(ToastType.SUCCESS)
+        .build()
+        .show()  
+        location.reload()  
+      },error:(err)=>{
+        this.toast.setMessage("Oops! something went wrong")
+        .setTitle("Error")
+        .setType(ToastType.FAILURE)
+        .build()
+        .show() 
+      }
+    })
   }
 }
 
