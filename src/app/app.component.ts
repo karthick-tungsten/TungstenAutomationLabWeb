@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VariableShareService } from './common-services/variable-share.service';
+import { VariableShareService } from './support/common-services/variable-share.service';
 
 @Component({
   selector: 'app-root',

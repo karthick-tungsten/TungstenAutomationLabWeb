@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { VariableShareService } from './variable-share.service';
+import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.service';
+import { ToastType } from '../project-enums/projectEnums';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,18 @@ export class CommonMethodsService {
 
   constructor(
     private router:Router,
-    private vShare:VariableShareService) { }
+    private toast:ToastService) { }
 
   public validateToken(){
     if(this.getFromLocal("auth")==null){
       localStorage.clear()
       sessionStorage.clear()
       this.router.navigate([""])
-      let data = { "title": "Error", "message": "Please login", "type": "failure" }
-      this.vShare.showToastValues(data)
+      this.toast.setType(ToastType.FAILURE)
+              .setMessage("Please login")
+              .setTitle("Error")
+              .build()
+              .show();
     }
   }
 
