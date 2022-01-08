@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
 
   public rememberFlag: boolean = false;
   public email: any;
-  public showSuperadmin:boolean=false;
+  public showSuperadmin: boolean = false;
   constructor(
     private apiSerivce: ApiSerivceService,
     private common: CommonMethodsService,
@@ -90,10 +90,10 @@ export class HomePageComponent implements OnInit {
   private verifySuperAdmin() {
     this.apiSerivce.getApiRequest("/api/v1/superAdmin/homePageNavigation", null).subscribe({
       next: (response) => {
-        
+
       }, error: (err) => {
-        this.showSuperadmin=true
-        setTimeout(()=>{
+        this.showSuperadmin = true
+        setTimeout(() => {
           this.jquery.getId("superAdminSection").modalToggle()
         })
       }
@@ -102,20 +102,24 @@ export class HomePageComponent implements OnInit {
 
   public superadminCreation(json: any) {
     delete json['confirmPassword']
-    this.apiSerivce.postApiRequest("/api/v1/superAdmin/create",json).subscribe({
-      next:(response)=>{
+    this.apiSerivce.postApiRequest("/api/v1/superAdmin/create", json).subscribe({
+      next: (response) => {
+
         this.toast.setMessage("Super Admin Created Successfully!")
-        .setTitle("Success")
-        .setType(ToastType.SUCCESS)
-        .build()
-        .show()  
-        location.reload()  
-      },error:(err)=>{
+          .setTitle("Success")
+          .setType(ToastType.SUCCESS)
+          .build()
+          .show()
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+
+      }, error: (err) => {
         this.toast.setMessage("Oops! something went wrong")
-        .setTitle("Error")
-        .setType(ToastType.FAILURE)
-        .build()
-        .show() 
+          .setTitle("Error")
+          .setType(ToastType.FAILURE)
+          .build()
+          .show()
       }
     })
   }

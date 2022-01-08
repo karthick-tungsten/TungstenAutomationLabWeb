@@ -27,6 +27,7 @@ export class UserDetailsComponent implements OnInit {
   public createUserFieldList: any[] = this.createUserFields()
   public disableSubmitBtn: boolean = false;
   private deleteUserId:any;
+  public emailRegexPattern = new RegExp("[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}");
 
   constructor(
     private api: ApiSerivceService,
@@ -87,8 +88,8 @@ export class UserDetailsComponent implements OnInit {
   createUserFields(): any[] {
     return [
       { id: "fullName", labelName: "Full Name", errorMsg: "full name can't be empty", type: "text" },
-      { id: "email", labelName: "Email", errorMsg: "email name can't be empty", type: "email" },
-      { id: "password", labelName: "Password", errorMsg: "Password name can't be empty", type: "password" },
+      { id: "email", labelName: "Email", errorMsg: "email name can't be empty", type: "email", errorInvalidEmail:"invalid email format" },
+      { id: "password", labelName: "Password", errorMsg: "Password name can't be empty", type: "password",errorSpace:'password can\'t contains space',errorPasswordlength:"password length can't be less than five"},
       { id: "confirmPassword", labelName: "Confirm Password", errorMsg: "Confirm Password name can't be empty", type: "password" }
     ]
   }
@@ -116,7 +117,7 @@ export class UserDetailsComponent implements OnInit {
           this.toast
               .setTitle("Error")
               .setMessage(message)
-              .setType(ToastType.SUCCESS)
+              .setType(ToastType.FAILURE)
               .build()
               .show();
         }

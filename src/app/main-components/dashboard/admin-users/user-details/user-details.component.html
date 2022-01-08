@@ -94,7 +94,14 @@
                         createUserJson.value.password!=createUserJson.value.confirmPassword
                         && item.touched && createUserJson.value.password!=null && createUserJson.value.confirmPassword!=null && createUserJson.value.confirmPassword!=''">
                             not matched entered password</span>
+                        <span class="text-danger"
+                            *ngIf="createUserJson.value.password!=undefined&&createUserJson.value.password.includes(' ')"><small>{{field.errorSpace}}</small></span>
+                            <span class="text-danger"
+                            *ngIf="createUserJson.value.password!=undefined && createUserJson.value.password!=''&&createUserJson.value.password.length < 5 && !createUserJson.value.password.includes(' ')"><small>{{field.errorPasswordlength}}</small></span>
+                        <span class="text-danger"
+                            *ngIf="createUserJson.value.email != undefined &&createUserJson.value.email != '' && !emailRegexPattern.test(createUserJson.value.email)"><small>{{field.errorInvalidEmail}}</small></span>
                     </div>
+
                     <div class="form-floating my-2">
                         <select class="form-select" id="floatingSelectGrid" name="role" placeholder="role"
                             #item="ngModel" [class.is-invalid]="item.invalid && item.touched"
@@ -110,7 +117,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="createUserSubmitBtn" class="btn btn-primary"
-                        [disabled]="!createUserJson.valid">Create</button>
+                        [disabled]="createUserJson.invalid
+                        || (createUserJson.value.password!=undefined&&createUserJson.value.password.includes(' '))
+                        || createUserJson.value.password!=undefined && createUserJson.value.password!=''&&createUserJson.value.password.length < 5 && !createUserJson.value.password.includes(' ')
+                        || createUserJson.value.email != undefined &&createUserJson.value.email != '' && !emailRegexPattern.test(createUserJson.value.email)
+                        || (createUserJson.value.password!=undefined && createUserJson.value.password!=createUserJson.value.confirmPassword)
+                        ">Create</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         (click)="createUserJson.resetForm()">Close</button>
                 </div>
