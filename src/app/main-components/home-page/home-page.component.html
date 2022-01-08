@@ -49,6 +49,9 @@
                                 <label for="floatingPassword">Super Admin Id</label>
                                 <span class="text-danger" *ngIf="superAdminId.invalid && superAdminId.touched"><small>id
                                         can't be empty</small></span>
+                                        <span class="text-danger"
+                                    *ngIf="superAdminId.value!='' && superAdminId.value.length<5 && superAdminId.touched"><small>username
+                                        length should not be less than three</small></span>
                             </div>
 
                             <div class="form-floating my-2">
@@ -61,10 +64,16 @@
                                     *ngIf="superadminPassword.invalid && superadminPassword.touched"><small>password
                                         can't be
                                         empty</small></span>
+                                <span class="text-danger"
+                                    *ngIf="superadminPassword.value!='' &&superadminPassword.value.length<5 && superadminPassword.touched"><small>password
+                                        length should not be less than five</small></span>
+                                <span class="text-danger"
+                                    *ngIf="superadminPassword.value!=null && superadminPassword.value.includes(' ') && superadminPassword.touched"><small>confirm
+                                        password should not contains with space</small></span>
                             </div>
 
                             <div class="form-floating my-2">
-                                <input type="superAdminConfirmPassword" required class="form-control"
+                                <input type="password" required class="form-control"
                                     id="floatingPassword" placeholder="Password" name="confirmPassword" ngModel
                                     #superAdminConfirmPassword="ngModel"
                                     [class.is-invalid]="superAdminConfirmPassword.invalid && superAdminConfirmPassword.touched"
@@ -82,9 +91,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit"
-                            [disabled]="superAdminConfirmPassword.value !='' && (superAdminConfirmPassword.value != superadminPassword.value) || !superadminJson.valid"
-                            class="btn btn-primary">Create</button>
+                        <button type="submit" [disabled]="(superAdminId.value==''||superadminPassword.value==''||superAdminConfirmPassword.value=='')|| 
+                            (superadminPassword.value.includes(' ')) || 
+                            (superadminPassword.value!=superAdminConfirmPassword.value) || 
+                            superAdminId.value.length < 3||
+                            superadminPassword.value.length <5 ||
+                            superadminJson.invalid " class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </div>

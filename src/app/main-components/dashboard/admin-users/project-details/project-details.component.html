@@ -15,7 +15,8 @@
             <app-circle-spinner></app-circle-spinner>
           </td>
         </tr>
-        <tr class="text-center" *ngIf="projectList.length==0 && allProjectResponse==undefined">
+        <tr class="text-center"
+          *ngIf="allProjectResponse==undefined&&projectList!=(null||undefined) &&projectList.length==0">
           <td colspan="4" class="p-5">No project available</td>
         </tr>
         <tr *ngFor="let project of (this.projectList | paginate:{'itemsPerPage':10,'currentPage':currentPage})">
@@ -29,7 +30,7 @@
 
       </tbody>
     </table>
-    <pagination-controls class="text-center" (pageChange)="currentPage=$event" *ngIf="projectList.length>10">
+    <pagination-controls class="text-center" (pageChange)="currentPage=$event" *ngIf="projectList!=(null||undefined) && projectList.length>10">
     </pagination-controls>
   </div>
 </div>
