@@ -1,1 +1,36 @@
-<p>test-runs works!</p>
+<section class="test-runs">
+    <div class="card m-2">
+        <div class="header row m-3">
+            <span class="col-1">mark</span>
+            <span class="col-4 text-center">Name & description</span>
+            <span class="col-1">Status</span>
+            <span class="col-1">Total</span>
+            <span class="col-1">Passed</span>
+            <span class="col-1">Failed</span>
+            <span class="col-1">Skipped</span>
+            <span class="col-1">createOn</span>
+            <span class="col-1">Actions</span>
+        </div>
+        <div class="list-group" *ngIf="response!=null">
+            <div class="list-group-item" *ngFor="let testRunList of response.testRuns">
+                <div class="row">
+                <span class="col-1">*</span>
+                <span class="col-4 text-left">
+                    <p class="name">{{testRunList.name}}</p>
+                    <div class="tags">
+                        <span class="mx-1 bg-dark text-white" *ngFor="let tags of testRunList.tags"><i class="fa fa-tag mx-1" aria-hidden="true"></i>{{tags}}</span>
+                    </div>
+                    <div class="descrption">{{testRunList.description}}</div>
+                </span>
+                <span class="col-1"><small>{{testRunList.status}}</small></span>
+                <span class="col-1">{{testRunList.total}}</span>
+                <span class="col-1">{{testRunList.passed}}</span>
+                <span class="col-1">{{testRunList.failed}}</span>
+                <span class="col-1">{{testRunList.skipped}}</span>
+                <span class="col-1">{{testRunList.createOn}}</span>
+                <span class="col-1">Actions</span>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>

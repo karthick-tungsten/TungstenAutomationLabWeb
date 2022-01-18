@@ -11,7 +11,6 @@ import { NavigationBarComponent } from './main-components/navigation-bar/navigat
 import { DashboardComponent } from './main-components/dashboard/dashboard.component';
 import { CircleSpinnerComponent } from './common-components/circle-spinner/circle-spinner.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { ToastComponent } from './common-components/popup-toast/toast/toast.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { LoadingGrowComponent } from './common-components/loading-grow/loading-grow.component';
@@ -44,7 +43,8 @@ import { TestRunsComponent } from './main-components/report/test-runs/test-runs.
     FormsModule,
     HttpClientModule,
     NgxPaginationModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatProgressBarModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: InterceptorServiceService, multi: true }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
