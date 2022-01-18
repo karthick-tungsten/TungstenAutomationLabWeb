@@ -11,8 +11,8 @@ export class ApiSerivceService {
   public static reponseBody = "body";
   public static response = "response"
 
-  // private baseUrl: String = "http://localhost:8080"
-  private baseUrl: String = "http://tungstenautomation.ddns.net/secure"
+  private baseUrl: String = "http://localhost:8080"
+  // private baseUrl: String = "http://tungstenautomation.ddns.net/secure"
 
   constructor(
     private httpClient: HttpClient,

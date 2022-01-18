@@ -6,13 +6,12 @@ import { CommonMethodsService } from 'src/app/support/common-services/common-met
 import { VariableShareService } from 'src/app/support/common-services/variable-share.service';
 import { JqueryService } from 'src/app/support/jquery/jquery.service';
 import { ToastType } from 'src/app/support/project-enums/projectEnums';
-declare var $: any;
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
 
   public rememberFlag: boolean = false;
   public email: any;
@@ -42,7 +41,7 @@ export class HomePageComponent implements OnInit {
 
   alreadyLoggedInAction() {
     if (this.common.getFromLocal("auth") != null) {
-      this.router.navigate(["/dashboard"])
+      this.router.navigate([""])
       this.toast.setType(ToastType.INFO)
         .setMessage("Your are already logged in!")
         .setTitle("Info")
@@ -59,7 +58,7 @@ export class HomePageComponent implements OnInit {
             this.rememberAction();
             let token: any = resp.headers.get("Authorization");
             this.common.storeToLocal("auth", token);
-            this.router.navigate(["/dashboard"])
+            this.router.navigate([""])
             let data = { "title": "Success", "message": "Logged in successfully!", "type": "success" }
             this.toast.setType(ToastType.SUCCESS)
               .setMessage("Logged in successfully!")
@@ -123,6 +122,5 @@ export class HomePageComponent implements OnInit {
       }
     })
   }
+
 }
-
-

@@ -1,17 +1,16 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "1abd7da2-2b49-45d4-8ef3-d4ab4880f14d"
+    "analytics": "aee292ea-fa08-44df-b98d-0208c8186996"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tungsten-automation-lab": {
+    "TungstenAutomationLabWeb": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
-          "strict": true,
-          "skipTests": true
+          "strict": true
         }
       },
       "root": "",
@@ -21,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tungsten-automation-lab",
+            "outputPath": "dist/TungstenAutomationLabWeb",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "tungsten-automation-lab:build:production"
+              "browserTarget": "TungstenAutomationLabWeb:build:production"
             },
             "development": {
-              "browserTarget": "tungsten-automation-lab:build:development"
+              "browserTarget": "TungstenAutomationLabWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tungsten-automation-lab:build"
+            "browserTarget": "TungstenAutomationLabWeb:build"
           }
         },
         "test": {
@@ -108,5 +107,5 @@
       }
     }
   },
-  "defaultProject": "tungsten-automation-lab"
+  "defaultProject": "TungstenAutomationLabWeb"
 }

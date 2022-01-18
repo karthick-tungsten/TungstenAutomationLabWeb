@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'tungsten-automation-lab'`, () => {
+  it(`should have as title 'TungstenAutomationLabWeb'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('tungsten-automation-lab');
+    expect(app.title).toEqual('TungstenAutomationLabWeb');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('tungsten-automation-lab app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('TungstenAutomationLabWeb app is running!');
   });
 });
