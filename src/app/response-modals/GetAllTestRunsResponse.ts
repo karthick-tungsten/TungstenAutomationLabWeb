@@ -24,6 +24,9 @@ interface TestRuns{
     lastUpdate:String
 }
 
-enum Status{
-    PASSED,FAILED,IN_PROGRESS,SKIPPED
+export enum Status{
+    PASSED ='PASSED',
+    FAILED = 'FAILED',
+    IN_PROGRESS='IN_PROGRESS',
+    SKIPPED='SKIPPED'
 }

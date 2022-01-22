@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GetAllTestRunsResponse } from 'src/app/response-modals/GetAllTestRunsResponse';
+import { GetAllTestRunsResponse, Status } from 'src/app/response-modals/GetAllTestRunsResponse';
 import { ApiSerivceService } from 'src/app/support/common-services/api-serivce.service';
+import { ChartData, ChartEvent} from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+
 
 @Component({
   selector: 'app-test-runs',
@@ -11,7 +14,13 @@ export class TestRunsComponent implements OnInit {
 
   response!: GetAllTestRunsResponse;
 
-  constructor(private _api: ApiSerivceService) { }
+  public get Status() {
+    return Status;
+  }
+
+  constructor(private _api: ApiSerivceService) {
+
+  }
 
   ngOnInit(): void {
     this._api.getApiWithModal<GetAllTestRunsResponse>("/api/v1/report/testRuns/getAllTestRuns", this._api.getAuthHeader()).subscribe({
@@ -23,7 +32,26 @@ export class TestRunsComponent implements OnInit {
 
       }
     })
+  }
 
+  getChartData(passed=0, failed=0, skipped=0) {
+    return {
+      data: {
+        labels: ["PASSED", "FAILED", "SKIPPED"],
+        
+        datasets: [
+          {
+            animation:true,
+            data: [passed, failed, skipped],
+            backgroundColor: ['#006b0b', '#ff0000', '#007abd']
+          }
+        ]
+      } as ChartData<'doughnut'>,
+    }
+  }
+
+  chartClick(event:any){
+    console.log(event);
     
   }
 

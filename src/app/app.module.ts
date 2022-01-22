@@ -20,6 +20,8 @@ import { ProjectDetailsComponent } from './main-components/dashboard/admin-users
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportMainPageComponent } from './main-components/report/report-main-page/report-main-page.component';
 import { TestRunsComponent } from './main-components/report/test-runs/test-runs.component';
+import { TimeAgoPipeService } from './support/sortPipes/time-ago-pipe.service';
+import{NgChartsModule} from 'ng2-charts'
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { TestRunsComponent } from './main-components/report/test-runs/test-runs.
     ProjectDetailsComponent,
     ReportMainPageComponent,
     TestRunsComponent,
+    TimeAgoPipeService
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { TestRunsComponent } from './main-components/report/test-runs/test-runs.
     HttpClientModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgChartsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: InterceptorServiceService, multi: true }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { map, Subscriber } from 'rxjs';
+import { ToastService } from 'src/app/common-components/popup-toast/toast/toast.service';
+import { ToastType } from '../project-enums/projectEnums';
 import { CommonMethodsService } from './common-methods.service';
 @Injectable({
   providedIn: 'root'
@@ -16,7 +19,9 @@ export class ApiSerivceService {
 
   constructor(
     private httpClient: HttpClient,
-    private common: CommonMethodsService
+    private common: CommonMethodsService,
+    private router:Router,
+    private toast:ToastService
   ) { }
 
   private getUrl(path: any) {
@@ -53,5 +58,24 @@ export class ApiSerivceService {
   public deleteApi(path: any, headerParam: any) {
     return this.httpClient.delete(this.getUrl(path), { headers: headerParam, observe: "response" })
   }
+
+  public validateToken(){
+  this.getApiRequest("/validateSession", this.getAuthHeader()).subscribe({
+    next: (resp) => {
+
+    }, error: (err) => {
+      localStorage.clear()
+      sessionStorage.clear()
+      this.router.navigate(["user/login"])
+      this.toast.setType(ToastType.FAILURE)
+        .setMessage("Please login")
+        .setTitle("Error")
+        .build()
+        .show();
+    }, complete: () => {
+
+    }
+  });
+}
 }
 

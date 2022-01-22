@@ -12,3 +12,112 @@
     border-color: rgb(70, 65, 69);
     border-width: 2px;
 }
+
+.custom-link{
+    color: #000033;
+}
+
+.dot-collision {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+  }
+  
+  .dot-collision::before, .dot-collision::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+  }
+  
+  .dot-collision::before {
+    left: -10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dotCollisionBefore 1s infinite ease-in;
+  }
+  
+  .dot-collision::after {
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dotCollisionAfter 1s infinite ease-in;
+    animation-delay: .5s;
+  }
+  
+  @keyframes dotCollisionBefore {
+    0%,
+    50%,
+    75%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-15px);
+    }
+  }
+  
+  @keyframes dotCollisionAfter {
+    0%,
+    50%,
+    75%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(15px);
+    }
+  }
+
+  snippet {
+    position: relative;
+    background: #fff;
+    /* padding: 2rem 5%; */
+    /* margin: 1.5rem 0; */
+    box-shadow: 0 .4rem .8rem -.1rem rgba(0, 32, 128, .1), 0 0 0 1px #f0f2f7;
+    border-radius: .25rem;
+  }
+
+  .examples .snippet:before {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    content: attr(data-title);
+    font-size: .75rem;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: white;
+    background-color: rgb(255, 25, 100);
+    border-radius: .25rem 0 .25rem 0;
+  }
+
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* padding: 2rem 0; */
+    margin: 0 -5%;
+    overflow: hidden;
+  }
+
+  .filter-contrast {
+    filter: contrast(5);
+    background-color: white;
+  }
+
+  .footer {
+    margin: 120px 0 20px;
+    text-align: center;
+    overflow: auto;
+  }

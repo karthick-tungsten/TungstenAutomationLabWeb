@@ -19,15 +19,19 @@ export class NavigationBarComponent implements OnInit, AfterContentInit {
   ) { }
 
   ngOnInit(): void {
+    this.api.validateToken()
     this.userDetailsSessionManagement();
   }
 
   ngAfterContentInit(): void {
-    let json = JSON.parse(this.common.getFromSession("userDetails"))
-    this.nameOfTheUser = json.fullName;
-    this.roleOfTheUser = json.role
+    try {
+      let json = JSON.parse(this.common.getFromSession("userDetails"))
+      this.nameOfTheUser = json.fullName;
+      this.roleOfTheUser = json.role
+    } catch (error) {
+    }
   }
-  
+
   userDetailsSessionManagement() {
     if (this.common.getFromSession("userDetails") == null) {
       this.api.getApiRequest("/api/v1/getUserDetails", this.api.getAuthHeader()).subscribe(
