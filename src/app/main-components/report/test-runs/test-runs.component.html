@@ -1,36 +1,76 @@
 <section class="test-runs">
     <div class="card m-2">
         <div class="header row m-3">
-            <span class="col-1">mark</span>
-            <span class="col-4 text-center">Name & description</span>
-            <span class="col-1">Status</span>
-            <span class="col-1">Total</span>
-            <span class="col-1">Passed</span>
-            <span class="col-1">Failed</span>
-            <span class="col-1">Skipped</span>
-            <span class="col-1">createOn</span>
-            <span class="col-1">Actions</span>
+            <span class="col-1">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Select All
+                    </label>
+                </div>
+            </span>
+            <span class="col-4 text-left">Name & description</span>
+            <span class="col text-center">Status</span>
+            <span class="col text-center">result</span>
+            <span class="col text-center">Created On</span>
+            <span class="col text-center">Actions</span>
         </div>
         <div class="list-group" *ngIf="response!=null">
             <div class="list-group-item" *ngFor="let testRunList of response.testRuns">
                 <div class="row">
-                <span class="col-1">*</span>
-                <span class="col-4 text-left">
-                    <p class="name">{{testRunList.name}}</p>
-                    <div class="tags">
-                        <span class="mx-1 bg-dark text-white" *ngFor="let tags of testRunList.tags"><i class="fa fa-tag mx-1" aria-hidden="true"></i>{{tags}}</span>
-                    </div>
-                    <div class="descrption">{{testRunList.description}}</div>
-                </span>
-                <span class="col-1"><small>{{testRunList.status}}</small></span>
-                <span class="col-1">{{testRunList.total}}</span>
-                <span class="col-1">{{testRunList.passed}}</span>
-                <span class="col-1">{{testRunList.failed}}</span>
-                <span class="col-1">{{testRunList.skipped}}</span>
-                <span class="col-1">{{testRunList.createOn}}</span>
-                <span class="col-1">Actions</span>
-            </div>
+                    <span class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        </div>
+                    </span>
+                    <span class="col-4 text-left">
+                        <p class="name custom-link text-primary text-decoration-underline pointer fs-6">
+                            {{testRunList.name +' #'+testRunList.count}}</p>
+                        <div class="tags">
+                            <span class="mx-1 border border-dark rounded-3 px-1 pointer"
+                                *ngFor="let tags of testRunList.tags">
+                                <small><i class="fa fa-tag mx-1" aria-hidden="true"></i>{{tags}}</small>
+                            </span>
+                        </div>
+                        <div class="descrption fw-lighter mt-2">{{testRunList.description}}</div>
+                    </span>
+                    <span class="col text-center">
+                        <small *ngIf="testRunList.status != Status.IN_PROGRESS">
+                            {{testRunList.status}}
+                        </small>
+                        <span *ngIf="testRunList.status == Status.IN_PROGRESS">
+                            <small>{{testRunList.status}}</small>
+                            <div class="col">
+                                <div class="snippet" data-title=".dot-collision">
+                                    <div class="stage">
+                                        <div class="dot-collision"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </span>
+                    <span class="col">
+                        <canvas class="w-100" baseChart [legend]="false" [options]="{aspectRatio:1.5}"
+                            [data]="getChartData(testRunList.passed,testRunList.failed,testRunList.skipped).data"
+                            [type]="'doughnut'" (chartClick)="chartClick($event)"></canvas>
+                    </span>
+                    <span class="col text-muted text-center">{{(testRunList.createOn | timeAgo)}}</span>
+                    <span class="col pointer text-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                        </svg>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<ng-template #inprogress>
+    <div class="snippet" data-title=".dot-collision">
+        <div class="stage">
+            <div class="dot-collision"></div>
+        </div>
+    </div>
+</ng-template>
